@@ -1,23 +1,21 @@
 class Solution {
 public:
 
+    unordered_map<int, int> memo { {0,0}, {1,1}, {2,2}};
     int climbStairs(int n) {
-        int a=1;
-        int b=2;
+
+        if(memo.find(n) != memo.end()){
+            return memo[n];
+        }
 
         if(n<=2)
         {
             return n;
         }
-        int i=3;
-        long long c;
 
-        while(i<=n){
-            c = a + b;
-            a = b;
-            b = c;
-            i++;
-        }
-        return b;
+        memo[n] = climbStairs(n-1) + climbStairs(n-2);
+        return memo[n];
+
+    return climbStairs(n);
     }
 };
