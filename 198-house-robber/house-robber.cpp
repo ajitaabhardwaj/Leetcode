@@ -24,15 +24,6 @@ public:
     {
         vector<int> sums (nums.size(), -1);
         int ans = 0;
-        if(nums.size() ==2)
-        {
-            return max(nums[0], nums[1]);
-        }
-
-        if(nums.size() <=1)
-        {
-            return nums[0];
-        }
         return max(solve(0, nums, sums), solve(1, nums, sums));
     }
 };
