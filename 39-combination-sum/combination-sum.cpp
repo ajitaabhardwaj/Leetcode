@@ -4,31 +4,6 @@ public:
     {
         if(currtotal == target)
         {
-            /*
-            int flag1 = 0;
-            for(int a=0; a<ans.size(); a++)
-            {
-                int count = 0;
-                if(currans.size() == ans[a].size())
-                {
-                    for(int b=0; b<currans.size();b++)
-                    {
-                        if(currans[b] == ans[a][b])
-                        {
-                            count++;
-                        }
-                    }
-                    if(count == currans.size())
-                        {
-                            flag1 =1;
-                        }
-                }
-
-            }
-            if(flag1 == 0)
-                {
-                    ans.push_back(currans);
-                }*/
             ans.push_back(currans);
             return;
         }
@@ -37,8 +12,6 @@ public:
         {
             return;
         }
-        std::cout<<i<<" "<<currtotal<<endl;
-
 
         solve(i+1, currans, currtotal, candidates, target, ans);
 
@@ -49,7 +22,6 @@ public:
         currtotal = currtotal-candidates[i];
         return;
     }
-
 
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) 
     {
