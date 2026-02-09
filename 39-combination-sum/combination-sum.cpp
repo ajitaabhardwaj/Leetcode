@@ -4,6 +4,7 @@ public:
     {
         if(currtotal == target)
         {
+            /*
             int flag1 = 0;
             for(int a=0; a<ans.size(); a++)
             {
@@ -27,9 +28,11 @@ public:
             if(flag1 == 0)
                 {
                     ans.push_back(currans);
-                }
+                }*/
+            ans.push_back(currans);
             return;
         }
+        
         if(i==candidates.size() || currtotal > target)
         {
             return;
@@ -41,7 +44,6 @@ public:
 
         currans.push_back(candidates[i]);
         currtotal = currtotal+candidates[i];
-        
         solve(i, currans, currtotal, candidates, target, ans);
         currans.pop_back();
         currtotal = currtotal-candidates[i];
