@@ -12,14 +12,16 @@ public:
         {
             return;
         }
+        
 
-        solve(i+1, currans, remaining, candidates, target, ans);
-
-        currans.push_back(candidates[i]);
-        remaining = remaining-candidates[i];
-        solve(i, currans, remaining, candidates, target, ans);
+        for(int j=i; j<candidates.size(); j++)
+        {
+        currans.push_back(candidates[j]);
+        remaining = remaining-candidates[j];
+        solve(j, currans, remaining, candidates, target, ans);
         currans.pop_back();
-        remaining = remaining+candidates[i];
+        remaining = remaining+candidates[j];
+        }
         return;
     }
 
