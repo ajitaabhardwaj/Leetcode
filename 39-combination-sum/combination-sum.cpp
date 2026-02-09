@@ -41,7 +41,7 @@ public:
 
         currans.push_back(candidates[i]);
         currtotal = currtotal+candidates[i];
-        solve(i+1, currans, currtotal, candidates, target, ans);
+        
         solve(i, currans, currtotal, candidates, target, ans);
         currans.pop_back();
         currtotal = currtotal-candidates[i];
