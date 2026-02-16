@@ -9,7 +9,7 @@ public:
             return;
         }
 
-        if(i == n+1)
+        if(i > n)
         {
             return;
         }
