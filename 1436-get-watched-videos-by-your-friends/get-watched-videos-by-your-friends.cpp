@@ -53,26 +53,16 @@ public:
             }   
         }
 
-        for(auto& it: mp)
-        {
-            s.insert(it.second);
-        }
+        for(auto &it : mp)
+{
+    ans.push_back(it.first);
+}
 
-        for(const auto& val : s)
-        {
-            set<string> s2;
-            for(auto& it: mp)
-            {
-                if(it.second == val)
-                {
-                    s2.insert(it.first);
-                }
-            }
-            for(const auto& val : s2)
-            {
-                ans.push_back(val);
-            }
-        }
+sort(ans.begin(), ans.end(), [&](const string &a, const string &b)
+{
+    if(mp[a] != mp[b]) return mp[a] < mp[b];
+    return a < b;
+});
 
         
         return ans;
