@@ -1,13 +1,9 @@
-select distinct num as ConsecutiveNums 
-from (
-    select id, num, 
-    lead(num) over(
-        order by id
-    )as nxt, 
-    lead(num,2) over(
-        order by id
-    )as nxt2
-from logs
-)t
-where num = nxt and nxt = nxt2
+select distinct l1.num as ConsecutiveNums 
+from logs l1
+join logs l2
+on l1.id=l2.id+1
+join logs l3
+on l1.id=l3.id+2
+where l1.num = l2.num and l1.num = l3.num
+
 
