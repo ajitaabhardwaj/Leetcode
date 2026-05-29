@@ -8,6 +8,8 @@ class Solution:
                 n = num%10
                 num = num//10
                 digsum += n
+                if digsum > ans:
+                    break
             ans = min(ans, digsum)
 
         return ans
