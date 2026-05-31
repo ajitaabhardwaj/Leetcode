@@ -2,6 +2,7 @@ class Solution:
 
 
     def coinChange(self, coins: List[int], amount: int) -> int:
+        coins.sort()
         if amount == 0:
             return 0
         amt = amount
@@ -18,7 +19,6 @@ class Solution:
                     mini = min(mini, check(coin_i) + check (amt-coin_i))
             dp[amt] = mini
             return dp[amt]
-
         
         ans = check(amount)
         if ans == 2**32:
