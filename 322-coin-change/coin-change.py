@@ -3,6 +3,7 @@ class Solution:
 
     def coinChange(self, coins: List[int], amount: int) -> int:
         coins.sort()
+        coins = coins[::-1]
         if amount == 0:
             return 0
         amt = amount
