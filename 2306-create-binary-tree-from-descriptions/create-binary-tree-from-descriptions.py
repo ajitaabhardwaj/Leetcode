@@ -13,12 +13,10 @@ class Solution:
             node[element[1]] = TreeNode(element[1])
             s.add(element[1])
 
-        root = TreeNode()
-        for element in descriptions:
-            if element[0] not in s:
-                root = element[0]
-        
+        root = 0
         for parent, child, left in descriptions:
+            if parent not in s:
+                root = parent
             if left == 1:
                 node[parent].left = node[child]
             elif left == 0:
