@@ -9,8 +9,10 @@ class Solution:
         node = {}
         s = set()
         for element in descriptions:
-            node[element[0]] = TreeNode(element[0])
-            node[element[1]] = TreeNode(element[1])
+            if element[0] not in node:
+                node[element[0]] = TreeNode(element[0])
+            if element[1] not in node:
+                node[element[1]] = TreeNode(element[1])
             s.add(element[1])
 
         root = 0
