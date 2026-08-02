@@ -1,41 +1,36 @@
 class Solution {
 public:
-    
-    bool validPath(int n, vector<vector<int>>& edges, int source, int destination) 
+
+    bool dfs(int node, int dest, vector<bool>& visited, unordered_map<int, vector<int>>& adj)
     {
-        unordered_map<int, vector<int>>mp;
-        if(n <= 1)
+        if(node == dest)
         {
             return true;
         }
-        for(int i=0; i<edges.size(); i++)
-        {
-            mp[edges[i][0]].push_back(edges[i][1]);
-            mp[edges[i][1]].push_back(edges[i][0]);
-        }
-        queue<int> q;
-        q.push(source);
-        vector<bool> visited(n, false);
-        visited[source] = true;
 
-        while(q.empty() != true)
+        for(int i=0; i<adj[node].size(); i++)
         {
-            int curr = q.front();
-            q.pop();
-            for(int i=0; i<mp[curr].size(); i++)
+            if(visited[adj[node][i]] == false)
             {
-                if(mp[curr][i] == destination)
+                visited[adj[node][i]] = true;
+                if (dfs(adj[node][i], dest, visited, adj))
                 {
                     return true;
                 }
-                if(visited[mp[curr][i]] == false)
-                {
-                    q.push(mp[curr][i]);
-                    visited[mp[curr][i]] = true;
-                }
             }
-
         }
         return false;
     }
+    bool validPath(int n, vector<vector<int>>& edges, int source, int destination) {
+        unordered_map<int, vector<int>> adj;
+        for(int i=0; i<edges.size(); i++)
+        {
+            adj[edges[i][0]].push_back(edges[i][1]);
+            adj[edges[i][1]].push_back(edges[i][0]);
+        }
+        vector<bool>visited(n, false);
+        visited[source] = true;
+
+        return dfs(source, destination, visited, adj);
+       }
 };
