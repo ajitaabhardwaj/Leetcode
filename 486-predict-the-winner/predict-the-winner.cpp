@@ -1,39 +1,30 @@
 class Solution {
 public:
-    int dp(vector<vector<int>>& memo, vector<int>& nums, int i, int j)
-    {
-        if(i>j)
-        {
-            return 0;
-        }
-        if(i==j)
-        {
-            memo[i][j] = nums[i];
-            return memo[i][j];
-        }
-        if( memo[i][j] != -1)
-        {
-            return memo[i][j];
-        }
 
-        memo[i][j] = max
-        (nums[i] - dp(memo, nums, i+1, j), 
-        nums[j] - dp(memo, nums, i, j-1));
-        return memo[i][j];
-    }
-    
-    bool predictTheWinner(vector<int>& nums) 
-    {
-        int n = nums.size();
-        vector<vector<int>> memo(n, vector<int>(n ,-1));
-        int ans = dp(memo, nums, 0, n-1);
-        if(ans>=0)
+    bool predictTheWinner(vector<int>& nums) {
+        int n=nums.size();
+        vector<vector<int>> memo(nums.size()+1, vector<int>(nums.size()+1, 0));
+
+        for(int i=n-1; i>=0; i--)
         {
+            for (int j=i; j<n; j++)
+            {
+                if(i==j)
+                {
+                    memo[i][j] = nums[i];
+                }
+                else{
+                    memo[i][j] = max(nums[j] - memo[i][j-1], nums[i] - memo[i+1][j]);
+                }
+            }
+        }   
+
+        if( memo[0][n-1]< 0){
+            return false;
+        } 
+        else{
             return true;
         }
-        else
-        {
-            return false;
-        }
+
     }
 };
