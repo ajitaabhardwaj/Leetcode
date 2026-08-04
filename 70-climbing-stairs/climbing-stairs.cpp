@@ -1,21 +1,24 @@
 class Solution {
 public:
-
-    unordered_map<int, int> memo { {0,0}, {1,1}, {2,2}};
-    int climbStairs(int n) {
-
-        if(memo.find(n) != memo.end()){
+    int sol(int n, vector<int>& memo){
+        if(n<0){
+            return 0;
+        }
+        if(n==0)
+        {
+            return 1;
+        }
+        if(memo[n]!=-1){
             return memo[n];
         }
-
-        if(n<=2)
-        {
-            return n;
-        }
-
-        memo[n] = climbStairs(n-1) + climbStairs(n-2);
+        memo[n] = sol(n-1, memo) + sol(n-2, memo);
         return memo[n];
+    }
 
-    return climbStairs(n);
+    int climbStairs(int n) {
+        vector<int> memo(n+1, -1);
+
+        memo[0]= 0;
+        return sol(n, memo);
     }
 };
