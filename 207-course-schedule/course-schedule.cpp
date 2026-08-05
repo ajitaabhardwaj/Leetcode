@@ -1,85 +1,57 @@
 class Solution {
 public:
 
-    bool dfs(int node, vector<bool> &visited, unordered_map<int, vector<int>>& adj,  unordered_map<int, bool>&possible)
-    {
-        if(possible[node] == true)
-        {
-            
-            return true;
-        }
-
-        unordered_map<int, bool>poss;
+    bool dfs(int node, unordered_map<int, vector<int>>& adj, set<int>& visited, set<int>& path){
         
         for(int i=0; i<adj[node].size(); i++)
         {
-            int nbr = adj[node][i];
-            
-            if(possible[nbr] == true)
-            {
-                poss[nbr] = true;
-            }
-            else{
-                poss[nbr] = false;
-            }
-                
-            if(visited[nbr] == false)
-            {
-                
-                visited[nbr] = true;
-                if (dfs(nbr, visited, adj, possible) == true)
-                {
-                    possible[nbr] = true;
-                    poss[nbr] = true;
+    
+            if( visited.contains(adj[node][i])){
+                if(path.contains(adj[node][i])){
+                    return false;
                 }
+                continue;
             }
-        }
-        for(auto& [key, value] : poss)
-        {
-            if(poss[key] == false)
-            {
+            visited.insert(adj[node][i]);
+            path.insert(adj[node][i]);
+            if (dfs(adj[node][i], adj, visited, path) == false){
                 
                 return false;
             }
+            path.erase(adj[node][i]);
+
         }
-        possible[node] = true;
         return true;
     }
-    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) 
-    {  
+
+    bool canFinish(int numCourses, vector<vector<int>>& pre) {
         unordered_map<int, vector<int>> adj;
-        unordered_map<int, bool> possible;
-        for (int i=0; i<prerequisites.size(); i++)
-        {
-            if(prerequisites[i][0] == prerequisites[i][1])
-            {
-                return false;
-            }
-            adj[prerequisites[i][0]].push_back(prerequisites[i][1]);
-            possible[prerequisites[i][1]] = true;
+        set<int> visited {};
+         set<int> path {};
+
+        for(int i=0; i<pre.size(); i++){
+            adj[pre[i][0]].push_back(pre[i][1]);
         }
-        
-        
+
+        bool ans = true;
         for(auto& [key, value] : adj)
         {
-            possible[key] = false;
-        }
-        
-        
-        vector<bool> visited(numCourses, false);
 
-        for (auto& [i, value] : possible)
-        {
-            if(possible[i] == false)
+            if(visited.contains(key))
             {
-                visited[i] = true;
-                possible[i] = dfs(i, visited, adj, possible);
-               
+                continue;
             }
-            if(possible[i] == false)
-            {
-                
+           
+            path.insert(key);
+            visited.insert(key);
+            ans = dfs(key, adj, visited, path);
+            if(ans == false){
                 return false;
+
+            }
+            if(path.contains(key))
+            {
+                path.erase(key);
             }
         }
         return true;
