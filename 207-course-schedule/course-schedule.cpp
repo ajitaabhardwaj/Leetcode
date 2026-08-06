@@ -1,57 +1,51 @@
 class Solution {
 public:
-
-    bool dfs(int node, unordered_map<int, vector<int>>& adj, set<int>& visited, set<int>& path){
-        
-        for(int i=0; i<adj[node].size(); i++)
-        {
-    
-            if( visited.contains(adj[node][i])){
-                if(path.contains(adj[node][i])){
-                    return false;
-                }
-                continue;
-            }
-            visited.insert(adj[node][i]);
-            path.insert(adj[node][i]);
-            if (dfs(adj[node][i], adj, visited, path) == false){
-                
-                return false;
-            }
-            path.erase(adj[node][i]);
-
-        }
-        return true;
-    }
-
     bool canFinish(int numCourses, vector<vector<int>>& pre) {
         unordered_map<int, vector<int>> adj;
-        set<int> visited {};
-         set<int> path {};
-
+        unordered_map<int, int> indegree;
+        queue<int> q;
         for(int i=0; i<pre.size(); i++){
-            adj[pre[i][0]].push_back(pre[i][1]);
+            int u = pre[i][0];
+            int v = pre[i][1];
+            adj[u].push_back(v);
+            if(indegree.find(v) == indegree.end()){
+                //not found
+                indegree[v] = 1;
+            }
+            else{
+                indegree[v]++;
+            }
+            if(indegree.find(u) == indegree.end()){
+                indegree[u] = 0;
+            }
         }
 
-        bool ans = true;
-        for(auto& [key, value] : adj)
+        for(auto& [key, value] : indegree){
+            if (value == 0)
+            {
+                q.push(key);
+            }
+        }
+        //bfs
+        while(!q.empty())
         {
+            int node = q.front();
+            q.pop();
 
-            if(visited.contains(key))
+            for(int i=0 ;i <adj[node].size(); i++)
             {
-                continue;
+                int nbr = adj[node][i];
+                indegree[nbr]--;
+                if(indegree[nbr] == 0)
+                {
+                    q.push(nbr);
+                }
             }
-           
-            path.insert(key);
-            visited.insert(key);
-            ans = dfs(key, adj, visited, path);
-            if(ans == false){
+        }
+
+        for(auto& [key, value]:indegree){
+            if(value!=0){
                 return false;
-
-            }
-            if(path.contains(key))
-            {
-                path.erase(key);
             }
         }
         return true;
