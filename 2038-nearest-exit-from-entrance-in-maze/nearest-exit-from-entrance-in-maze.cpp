@@ -10,21 +10,16 @@ public:
 
         q.push(entrance);
         visited[entrance[0]][entrance[1]] = true;
-        q.push({-1, -1});
         while(!q.empty()){
+
+            int sz= q.size();
+
+        for(int que=0; que<sz; que++){
             int i = q.front()[0];
             int j = q.front()[1];
             q.pop();
-
-            if(i == -1 and j == -1){
-                ans++;
-                cout<<ans<<endl;
-                if(!q.empty()) q.push({-1, -1});
-                continue;
-            }
-
-            
             for(auto& step: steps){
+
                 int nbi = i + step[0];
                 int nbj = j + step[1];
 
@@ -41,6 +36,8 @@ public:
                     q.push({nbi, nbj});
                 }
             }
+        }
+        ans++;
             
         }
         return -1;
