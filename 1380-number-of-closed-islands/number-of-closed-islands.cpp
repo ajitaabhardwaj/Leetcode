@@ -1,14 +1,15 @@
 class Solution {
 public:
     bool dfs(int i, int j, vector<vector<bool>>& visited, vector<vector<int>>& grid){
+         bool flag = true;
         if(visited[i][j] == true) return false;
         if(i == grid.size()-1 or i==0 or j == grid[0].size()-1 or j==0 ){
             if(grid[i][j] == 0){
-                return false;
+                flag = false;
             }
         }
         visited[i][j] = true;
-        bool flag = true;
+       
         vector<vector<int>> steps = {{-1,0}, {0,-1}, {1,0}, {0,1}};
         for(auto step : steps){
             int nbi = step[0]+i;
