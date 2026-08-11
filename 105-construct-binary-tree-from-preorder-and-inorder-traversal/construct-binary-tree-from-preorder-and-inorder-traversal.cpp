@@ -13,14 +13,13 @@
 
 class Solution {
 public:
-    TreeNode* build(int& i, int start, int end, vector<int>& preorder, vector<int>& inorder){
+    TreeNode* build(int& i, int start, int end, vector<int>& preorder, unordered_map<int, int>& inorder){
         if(start>end || i>preorder.size()){
             return nullptr;
         }
-        TreeNode* root = new TreeNode(preorder[i]);
 
-        auto it = find(inorder.begin(), inorder.end(), preorder[i]);
-        int e = std::distance(inorder.begin(), it);
+        TreeNode* root = new TreeNode(preorder[i]);
+        int e = inorder[preorder[i]];
         i++;
 
         if(e-1 >= 0) {
@@ -34,8 +33,12 @@ public:
 
         return root;
     }
-    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& ino) {
         int i=0;
-        return build(i, 0, preorder.size()-1, preorder,inorder);
+        unordered_map<int, int> inorder;
+        for(int x= 0; x<ino.size(); x++){
+            inorder[ino[x]] = x;
+        }
+        return build(i, 0, preorder.size()-1, preorder, inorder);
     }
 };
