@@ -1,1 +1,1 @@
-<h2>lowest-common-ancestor-of-a-binary-tree Notes</h2><hr>[ Time taken: 34m 52s ]
+<h2>lowest-common-ancestor-of-a-binary-tree Notes</h2><hr>[ Time taken: 11m 20s ]
