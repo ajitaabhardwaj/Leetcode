@@ -1,41 +1,37 @@
 class Solution {
 public:
+    void dfs(int node, unordered_map<int, vector<int>>& adj, vector<bool>& visited){
+        if(visited[node] == true) return;
 
-    int find(int node, vector<int>& parent){
-        if(node == parent[node])
-            return node;
-        return parent[node] = find(parent[node], parent);
-    }
-
-    void unions(int a, int b, vector<int>& parent){
-        int rootA = find(a, parent);
-        int rootB = find(b, parent);
-            parent[rootB] = rootA;
+        visited[node] = true;
+        for(int i=0; i<adj[node].size(); i++){
+            if(visited[adj[node][i]] == false){
+                dfs(adj[node][i], adj, visited);
+            }
+        }
         return;
     }
-
     int findCircleNum(vector<vector<int>>& isConnected) {
-        if(isConnected.size() ==1)
-            return 1;
-
-        vector<int> parent(isConnected.size(), 0);
-        for(int i=0; i<isConnected.size(); i++)
-            parent[i] = i;
-
-        for(int i=0; i<isConnected.size(); i++){
-            for(int j=0; j<isConnected.size(); j++){
-                if(i==j)
-                    continue;
-                if(isConnected[i][j] == 1){
-                    unions(i, j, parent);
+        unordered_map<int, vector<int>> adj;
+        for(int i=0; i<isConnected.size();i++){
+            for(int j=0; j<isConnected[0].size(); j++){
+                if(isConnected[i][j] == 1 && i!=j){
+                    adj[i].push_back(j);
                 }
             }
         }
-        int ans = 0;
-        for(int i=0; i<parent.size(); i++){
-            if (parent[i] == i)
-                ans++;
+
+        vector<bool> visited(isConnected.size(), false);
+        int count = 0;
+        for(int i=0; i<visited.size(); i++)
+        {
+            if(visited[i] == false){
+                dfs(i, adj, visited);
+                count++;
+            }
         }
-        return ans;
+
+        return count;
+
     }
 };
