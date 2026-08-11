@@ -11,47 +11,25 @@
  */
 class Solution {
 public:
-    vector<vector<int>> levelOrder(TreeNode* root) 
-    {
+    vector<vector<int>> levelOrder(TreeNode* root) {
         vector<vector<int>> ans;
-        if (root == nullptr)
-        {
-            return ans;
-        }
-        std::queue<TreeNode*> q;
-        q.push(root);
-        q.push(nullptr);
-        vector<int> ansthis;
-        int flag = 0;
-        while(!q.empty())
-        {
-            TreeNode* node = q.front();
-            q.pop();
-            if (node == nullptr && flag == 0)
-            {
-                flag = 1;
-                ans.push_back(ansthis);
-                ansthis.clear();
-                q.push(nullptr);
-                continue;
+        queue<TreeNode*> q;
+        if(root) q.push(root);
+        else return ans;
+        while(!q.empty()){
+            vector<int> a;
+            int sz = q.size();
+
+            for(int i=0; i<sz; i++){
+                TreeNode* temp = q.front();
+                q.pop();
+                a.push_back(temp->val);
+                if(temp->left) q.push(temp->left);
+                if(temp->right) q.push(temp->right);
             }
 
-            if (node == nullptr && flag == 1)
-            {
-                break;
-            }
-
-            flag = 0;
-            ansthis.push_back(node -> val);
-            if (node -> left != nullptr)
-                q.push(node -> left);
-            if (node -> right != nullptr)
-                q.push(node -> right);
-                        
-             
+            ans.push_back(a);
         }
-
         return ans;
-
-    }
+    }  
 };
