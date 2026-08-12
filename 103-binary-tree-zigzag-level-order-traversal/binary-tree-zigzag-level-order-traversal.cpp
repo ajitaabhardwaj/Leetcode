@@ -17,10 +17,9 @@ public:
         if (root) q.push(root);
         else return ans;
 
-        int level = 1;
         while(!q.empty()){
             int sz = q.size();
-            vector<int>a; 
+            vector<int>a;
             for(int i=0; i<sz; i++){
                 
                 TreeNode* temp = q.front();
@@ -29,9 +28,8 @@ public:
                 if(temp->right) q.push(temp->right);
                 a.push_back(temp->val);
             }
-            if(level%2 == 0) reverse(a.begin(), a.end());
+            if(ans.size()%2 == 1) reverse(a.begin(), a.end());
             ans.push_back(a);
-            level++;
         }
         return ans; 
     }
