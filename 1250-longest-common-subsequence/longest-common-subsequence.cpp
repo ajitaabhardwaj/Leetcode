@@ -1,31 +1,21 @@
 class Solution {
 public:
-    
-
-    int dp(int i, int j, string& text1, string& text2 ,vector<vector<int>>& memo)
-    {
-        if(i==text1.length() || j==text2.length()){
+    int solve(int i, int j, string& s1, string& s2, vector<vector<int>>& memo){
+        if(i==s1.length() or j==s2.length()){
             return 0;
         }
 
-        if (memo[i][j] != -1)
-        {
-            return memo[i][j];
-        }
+        if(memo[i][j] != -1) return memo[i][j];
 
-        if(text1[i] == text2[j]){
-            memo[i][j]= dp(i+1, j+1, text1, text2, memo)+1;
+        if(s1[i] == s2[j]){
+            return memo[i][j] = 1 + solve(i+1, j+1, s1, s2, memo);
         }
         else{
-            memo[i][j] = max(dp(i+1, j, text1, text2, memo), dp(i, j+1, text1, text2, memo));
+            return  memo[i][j] = max( solve(i+1, j, s1, s2, memo), solve(i, j+1, s1, s2, memo) );
         }
-        return memo[i][j];
     }
-
     int longestCommonSubsequence(string text1, string text2) {
-
-        vector<vector<int>> memo( text1.length()+1, vector<int>(text2.length()+1, -1) );
-        int ans = dp(0, 0, text1, text2, memo);
-        return ans;
+        vector<vector<int>> memo (text1.length(), vector<int>(text2.length(), -1) );
+        return solve(0, 0, text1, text2, memo);
     }
 };
