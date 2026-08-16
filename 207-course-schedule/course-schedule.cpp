@@ -1,53 +1,50 @@
 class Solution {
 public:
-    bool canFinish(int numCourses, vector<vector<int>>& pre) {
-        unordered_map<int, vector<int>> adj;
-        unordered_map<int, int> indegree;
+/*
+//[a, b] means a -> b
+
+0->1
+1->2
+0->2
+(how many subject to complete this subject?) like for compling 2 0 dependencies
+0: 2
+1: 1
+2: 0
+
+courses start from 0-n or random?
+*/
+
+    bool canFinish(int n, vector<vector<int>>& pre) {
+        vector<int> indegree(n, 0);
         queue<int> q;
+        unordered_map<int, vector<int>> adj;
+
         for(int i=0; i<pre.size(); i++){
-            int u = pre[i][0];
-            int v = pre[i][1];
-            adj[u].push_back(v);
-            if(indegree.find(v) == indegree.end()){
-                //not found
-                indegree[v] = 1;
-            }
-            else{
-                indegree[v]++;
-            }
-            if(indegree.find(u) == indegree.end()){
-                indegree[u] = 0;
-            }
+            adj[pre[i][1]].push_back(pre[i][0]);
+            indegree[pre[i][0]]++;
         }
 
-        for(auto& [key, value] : indegree){
-            if (value == 0)
-            {
-                q.push(key);
-            }
+        for(int i=0; i<n ; i++){
+            if(indegree[i] == 0) q.push(i);
         }
-        //bfs
-        while(!q.empty())
-        {
-            int node = q.front();
+
+        while(!q.empty()){
+            int curr = q.front();
             q.pop();
-
-            for(int i=0 ;i <adj[node].size(); i++)
-            {
-                int nbr = adj[node][i];
+            for(int i=0; i<adj[curr].size(); i++){
+                int nbr = adj[curr][i];
                 indegree[nbr]--;
-                if(indegree[nbr] == 0)
-                {
+                if(indegree[nbr] == 0){
                     q.push(nbr);
                 }
             }
         }
-
-        for(auto& [key, value]:indegree){
-            if(value!=0){
+        for(int i=0; i<n; i++){
+            if(indegree[i]!=0){
                 return false;
             }
         }
         return true;
+
     }
 };
