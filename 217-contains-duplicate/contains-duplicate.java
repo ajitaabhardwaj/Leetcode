@@ -6,8 +6,11 @@ class Solution {
             mp.put(nums[i], mp.getOrDefault(nums[i], 0)+1);
         }
 
-        for(int it: mp.values()){
-            if(it>1){
+        for(Map.Entry<Integer, Integer> e: mp.entrySet()){
+            int key = e.getKey();
+            int value = e.getValue();
+
+            if (value>1){
                 return true;
             }
         }
